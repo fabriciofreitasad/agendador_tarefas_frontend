@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, ViewEncapsulation } from '@angular/core';
 import {
   FormBuilder,
@@ -34,19 +35,27 @@ import { finalize } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class Register {
-  form: FormGroup;
+
+ form: FormGroup;
   isLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]],
+      senha: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks'])
+    }
   }
 
   get passwordControl(): FormControl {
@@ -55,41 +64,38 @@ export class Register {
 
   get fullNameErros(): string | null {
     const fullNameControl = this.form.get('nome');
-    if (fullNameControl?.hasError('required'))
-      return 'O nome completo é obrigatório';
-    if (fullNameControl?.hasError('minlength'))
-      return 'Cadastre um nome com mais de 3 letras';
-    return null;
+    if (fullNameControl?.hasError('required')) return 'O nome completo é um campo obrigatório';
+    if (fullNameControl?.hasError('minlength')) return 'Cadastre um nome com mais de 3 letras';
+    return null
   }
 
   get emailErros(): string | null {
     const emailControl = this.form.get('email');
-    if (emailControl?.hasError('required'))
-      return 'O cadastro do email é obrigatório';
-    if (emailControl?.hasError('email')) return 'Este email é inválido';
-    return null;
+    if (emailControl?.hasError('required')) return 'O cadastro do e-mail é obrigatório';
+    if (emailControl?.hasError('email')) return 'Este e-mail é inválido';
+    return null
   }
 
   submit() {
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      return;
+      return
     }
 
     const formData = this.form.value;
 
     this.isLoading = true;
 
-    this.userService
-      .register(formData)
-      .pipe(finalize(() => (this.isLoading = false)))
+    this.userService.register(formData)
+      .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (response) => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login'])
         },
         error: (error) => {
-          console.error(`Erro ao registar usuário`, error);
-        },
-      });
+          console.error(`Erro ao registar usuário`, error)
+        }
+      })
   }
 }

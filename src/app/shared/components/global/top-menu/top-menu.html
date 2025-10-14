@@ -14,14 +14,16 @@
 
    @if (!estaLogado) {
 
+    <span class="spacer"></span>
     <button mat-button [disabled]="estaNaRotaLogin()" routerLink="/login">Entrar</button>
     <button mat-flat-button [disabled]="estaNaRotaRegister()" routerLink="/register">Cadastrar-se</button>
-    }
+    <span class="spacer"></span>
+  }
 
     @if (estaLogado) {
     <div mat-card-avatar [matMenuTriggerFor]="menu" class="avatar-usuario">{{pegarInicialUsuario()}}</div>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>Meus dados</button>
+        <button mat-menu-item routerLink="/user-data">Meus dados</button>
         <button mat-menu-item (click)="logout()">Sair</button>
     </mat-menu>
 

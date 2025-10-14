@@ -36,7 +36,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Login {
 
-   form: FormGroup<{ email: FormControl<string>, senha: FormControl<string> }>;
+  form: FormGroup<{ email: FormControl<string>, senha: FormControl<string> }>;
   isLoading = false
 
   constructor(

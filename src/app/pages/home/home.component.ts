@@ -10,20 +10,19 @@ import { Component, inject } from '@angular/core';
 })
 export class HomeComponent {
 
-  //private authService = inject(AuthService);
-  //private router = inject(Router);
+ // private authService = inject(AuthService);
+ // private router = inject(Router);
 
   // ----- HERO (texto + bg <img> com fallback) -----
-  heroSubtitle =
-    'Kits solares completos (on/off-grid) — ajuste marcas e potência e receba orçamento pelo WhatsApp.';
+  heroSubtitle = 'Kits solares completos (on/off-grid) — ajuste marcas e potência e receba orçamento pelo WhatsApp.';
   herderImg = '/assets/hero/solar-bg.png';
 
 
-  /*ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/tasks']);
-    }
-  }*/
+//  ngOnInit(): void {
+//    if (this.authService.isLoggedIn()) {
+//      this.router.navigate(['/tasks']);
+//    }
+//  }
 
 
 }
